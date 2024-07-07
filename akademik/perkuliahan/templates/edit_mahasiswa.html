@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+      <form method="POST">
+        {% csrf_token %}
+        {{form | crispy}}
+        <div class="pt-2">
+          <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i>Update</button>
+          <a href="{% url 'manage_mahasiswa' %}" class="btn btn-danger btn-sm">Batal</a>
+        </div>
+      </form>
+    </div>
+</div>
+
+{% endblock content %}

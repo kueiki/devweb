@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="row pb-2">
+            <div class="col-sm-4">
+                <a href="{% url 'manage_tambah_mahasiswa' %}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <table class="table table-bordered" id="myTable">
+            <thead>
+                <tr>
+                    <th scope="col">NO</th>
+                    <th scope="col">NIM</th>
+                    <th scope="col">NAMA</th>
+                    <th scope="col">JENIS KELAMIN</th>
+                    <th scope="col">EMAIL</th>
+                    <th scope="col">JURUSAN</th>
+                    <th scope="col">AKSI</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in mhs %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ a.nim }}</td>
+                    <td>{{ a.nama }}</td>
+                    <td>{{ a.jeniskelamin }}</td>
+                    <td>{{ a.email }}</td>
+                    <td>{{ a.jurusan.namajurusan }}</td>
+                    <td>
+                        <a href="{% url 'edit_mahasiswa' a.id %}" class="btn btn-warning btn-sm" title="Edit"><i class="fa-regular fa-pen-to-square"></i></a>
+                        <button type="button" class="btn btn-danger btn-sm" title="Hapus" data-bs-toggle="modal" data-bs-target="#hapus-{{ a.id }}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <div class="modal fade" id="hapus-{{ a.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Penghapusan Data Mahasiswa</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Apakah anda ingin menghapus data atas mahasiswa Nim <strong>{{ a.nim }}</strong> Nama <strong>{{ a.nama }}</strong> ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                                <a href="{% url 'hapus_mahasiswa' a.id %}" class="btn btn-warning">Hapus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function() {
+        $('#myTable').DataTable();
+    });
+</script>
+{% endblock custom_js %}
